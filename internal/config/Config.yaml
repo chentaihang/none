@@ -1,0 +1,6 @@
+database:
+  host: 223.4.32.114
+  port: 3306
+  user: endless
+  password: 451124
+  name: test
