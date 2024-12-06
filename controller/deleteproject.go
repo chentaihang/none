@@ -37,7 +37,7 @@ func DeleteProjectByTitle(c *gin.Context) {
 
 	result := config.DB.Table("project").Where("teacher_id = ? AND title = ?", teacher.TeacherID, title).Delete(&model.Project{})
 	if result.Error != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "删除项目失败"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "删除项目失败+" + result.Error.Error()})
 		return
 	}
 
