@@ -23,6 +23,8 @@ type UpdateProjectRequest struct {
 	ProgressDate   *string `json:"progress_date"`
 	ProgressDesc   *string `json:"progress_desc"`
 	ProgressStatus *string `json:"progress_status"`
+	Type           string  `json:"type"`
+	Major          string  `json:"major"`
 }
 
 // 更新项目处理函数
@@ -66,9 +68,6 @@ func UpdateProject(c *gin.Context) {
 	if request.Description != nil {
 		project.Description = *request.Description
 	}
-	if request.StudentID != nil {
-		project.StudentID = request.StudentID
-	}
 	if request.Status != nil {
 		project.Status = *request.Status
 	}
@@ -84,19 +83,15 @@ func UpdateProject(c *gin.Context) {
 			project.EndDate = &endDate
 		}
 	}
-	if request.ProgressDate != nil {
-		progressDate, err := time.Parse("2006-01-02", *request.ProgressDate)
-		if err == nil {
-			project.ProgressDate = &progressDate
-		}
+	if request.Major != "" {
+		project.Major = request.Major
 	}
-	if request.ProgressDesc != nil {
-		project.ProgressDesc = *request.ProgressDesc
+	if request.Type != "" {
+		project.Type = request.Type
 	}
 	if err := config.DB.Table("project").Where("project_id = ? AND teacher_id = ? ", project.ProjectID, teacher.TeacherID).Save(&project).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "更新项目失败" + err.Error()})
 		return
 	}
-
 	c.JSON(http.StatusOK, project)
 }

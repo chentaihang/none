@@ -15,4 +15,6 @@ type Project struct {
 	ProgressDate   *time.Time `json:"progress_date,omitempty"`
 	ProgressDesc   string     `json:"progress_desc,omitempty"`
 	ProgressStatus *string    `json:"progress_status,omitempty"`
+	Type           string     `json:"type"`
+	Major          string     `json:"major"`
 }

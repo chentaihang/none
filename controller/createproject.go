@@ -22,6 +22,8 @@ type CreateProjectRequest struct {
 	ProgressDate   string `json:"progress_date"`
 	ProgressDesc   string `json:"progress_desc"`
 	ProgressStatus string `json:"progress_status"`
+	Type           string `json:"type"`
+	Major          string `json:"major"`
 }
 
 // 创建项目处理函数
@@ -78,7 +80,7 @@ func CreateProject(c *gin.Context) {
 	randomInt := rand.Int()
 	fmt.Println("随机整数:", randomInt)
 
-	// 生成一个在 [0, 100) 范围内的随机整数
+	// 生成一个在 [0, 10000) 范围内的随机整数
 	randomIntInRange := rand.Intn(10000)
 	// projectID随机生成
 	project := model.Project{
@@ -93,6 +95,8 @@ func CreateProject(c *gin.Context) {
 		ProgressDate:   progressDate,
 		ProgressDesc:   request.ProgressDesc,
 		ProgressStatus: &request.ProgressStatus,
+		Type:           request.Type,
+		Major:          request.Major,
 	}
 	// 如果课题存在
 	if err := config.DB.Table("project").Where("title = ?", request.Title).First(&project).Error; err == nil {
